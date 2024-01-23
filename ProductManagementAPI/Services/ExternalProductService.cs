@@ -10,7 +10,7 @@ using System.Collections.Concurrent;
 // Ive added basic caching with a simple in-memory dictionary to store the results of previous searches.
 namespace ProductManagementAPI.Services
 {
-    public class ExternalProductService
+    public class ExternalProductService : IExternalProductService
     {
         private readonly HttpClient _httpClient;
         private const string SearchUrl = "https://get-amazon-product.p.rapidapi.com/product/search";

@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+
 // Register the ApplicationDbContext with the connection string from appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -45,16 +46,18 @@ var retryPolicy = HttpPolicyExtensions
     });
 
 // Register the ExternalProductService for dependency injection and associate it with the retry policy.
-builder.Services.AddHttpClient<ExternalProductService>()
+builder.Services.AddHttpClient<IExternalProductService, ExternalProductService>()
     .AddPolicyHandler(retryPolicy);
 
 
-builder.Services.AddHostedService<DailyUpdateService>(); // Registering my DailyUpdateService (responsible for making daily API calls to AMAZON)
-builder.Services.AddSingleton<ExternalProductService>(); 
+// Register the DailyUpdateService as a hosted service
+builder.Services.AddHostedService<DailyUpdateService>();
 
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< DEPENDENCY INJECTION REGISTRATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-builder.Services.AddScoped<IProductRepository, ProductRepository>(); //Registering IProductRepository for dependency injection
+builder.Services.AddScoped<IProductRepository, ProductRepository>(); // Registering IProductRepository
+builder.Services.AddSingleton<IFileService, FileService>(); // Registering IFileService
+
 
 // Add Swagger generation tool.
 builder.Services.AddEndpointsApiExplorer();
