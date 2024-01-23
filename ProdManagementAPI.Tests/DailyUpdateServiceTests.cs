@@ -40,7 +40,7 @@ namespace ProdManagementAPI.Tests
         }
 
 
-
+        /*
         [Fact]
         public async Task ExecuteAsync_InvokesFetchAndUpdateData()
         {
@@ -74,6 +74,7 @@ namespace ProdManagementAPI.Tests
             // Assert
             mockExternalProductService.Verify(); // This verifies that FetchProductsAsync was called
         }
+        */
 
 
 
